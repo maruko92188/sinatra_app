@@ -53,5 +53,34 @@ get '/memos/:id' do
   id = params[:id]
   title = memos[id]['title']
   content = memos[id]['content']
-  erb :detail, locals: { title:, content: }
+  erb :detail, locals: {id:, title:, content: }
+end
+
+get '/memos/:id/edit' do
+  memos =
+  if File.exist?(JSON_FILE)
+    JSON.parse(File.read(JSON_FILE))
+  else
+    {}
+  end
+  id = params[:id]
+  title = memos[id]['title']
+  content = memos[id]['content']
+  erb :edit, locals: {id:, title:, content: }
+end
+
+patch '/memos/:id' do
+  memos =
+  if File.exist?(JSON_FILE)
+    JSON.parse(File.read(JSON_FILE))
+  else
+    {}
+  end
+  id = params[:id]
+  title = params[:title]
+  content = params[:content]
+  memos[id] = { title:, content: }
+  File.open(JSON_FILE, 'w') { |file| JSON.dump(memos, file) }
+
+  redirect "/memos/#{id}"
 end
