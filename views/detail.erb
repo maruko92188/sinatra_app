@@ -6,3 +6,9 @@
 <div>
   <a href="/memos/<%= id %>/edit">編集する</a>
 </div>
+<div>
+  <form action="/memos/<%= id %>" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="削除する">
+  </form>
+</div>

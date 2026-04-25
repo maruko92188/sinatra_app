@@ -84,3 +84,17 @@ patch '/memos/:id' do
 
   redirect "/memos/#{id}"
 end
+
+delete '/memos/:id' do
+  memos =
+  if File.exist?(JSON_FILE)
+    JSON.parse(File.read(JSON_FILE))
+  else
+    {}
+  end
+  id = params[:id]
+  memos.delete(id)
+  File.open(JSON_FILE, 'w') { |file| JSON.dump(memos, file) }
+
+  redirect '/memos'
+end
