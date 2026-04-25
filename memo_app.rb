@@ -42,3 +42,16 @@ post '/memos' do
 
   redirect '/memos'
 end
+
+get '/memos/:id' do
+  memos =
+  if File.exist?(JSON_FILE)
+    JSON.parse(File.read(JSON_FILE))
+  else
+    {}
+  end
+  id = params[:id]
+  title = memos[id]['title']
+  content = memos[id]['content']
+  erb :detail, locals: { title:, content: }
+end
