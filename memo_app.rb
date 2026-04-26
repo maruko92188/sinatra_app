@@ -22,29 +22,20 @@ end
 
 post '/memos' do
   memos = load_memos(JSON_FILE)
-  title = params[:title]
-  content = params[:content]
-  id = memos.keys.map(&:to_i).max&.next || FIRST_ID
-  memos[id] = { title:, content:, }
-  save_memos(JSON_FILE, memos)
+  posted_memos = post_memos(memos, params)
+  save_memos(JSON_FILE, posted_memos)
 
   redirect '/memos'
 end
 
 get '/memos/:id' do
   memos = load_memos(JSON_FILE)
-  # id = params[:id]
-  # title = memos[id]['title']
-  # content = memos[id]['content']
   memo = find_memo(memos, params)
   erb :detail, locals: {id: params[:id], memo: }
 end
 
 get '/memos/:id/edit' do
   memos = load_memos(JSON_FILE)
-  # id = params[:id]
-  # title = memos[id]['title']
-  # content = memos[id]['content']
   memo = find_memo(memos, params)
   erb :edit, locals: {id: params[:id], memo: }
 end
@@ -83,4 +74,12 @@ end
 def find_memo(memos, params)
   id = params[:id]
   memos.fetch(id)
+end
+
+def post_memos(memos, params)
+  id = memos.keys.map(&:to_i).max&.next || FIRST_ID
+  title = params[:title]
+  content = params[:content]
+  memos[id] = { title:, content:, }
+  memos
 end
