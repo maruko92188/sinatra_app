@@ -7,50 +7,49 @@ require 'json'
 JSON_FILE = './memo.json'
 FIRST_ID = 1
 
+before '/memos/?*' do
+  @memos = load_memos(JSON_FILE)
+end
+
 get '/' do 
   redirect '/memos'
 end
 
 get '/memos' do
-  memos = load_memos(JSON_FILE)
-  erb :index, locals: { memos: }
+  erb :index
 end
+
 
 get '/memos/new' do
   erb :new
 end
 
 post '/memos' do
-  memos = load_memos(JSON_FILE)
-  posted_memos = post_memos(memos, params)
+  posted_memos = post_memos(@memos, params)
   save_memos(JSON_FILE, posted_memos)
 
   redirect '/memos'
 end
 
 get '/memos/:id' do
-  memos = load_memos(JSON_FILE)
-  memo = find_memo(memos, params)
-  erb :detail, locals: {id: params[:id], memo: }
+  memo = find_memo(@memos, params)
+  erb :detail, locals: { id: params[:id], memo: }
 end
 
 get '/memos/:id/edit' do
-  memos = load_memos(JSON_FILE)
-  memo = find_memo(memos, params)
-  erb :edit, locals: {id: params[:id], memo: }
+  memo = find_memo(@memos, params)
+  erb :edit, locals: { id: params[:id], memo: }
 end
 
 patch '/memos/:id' do
-  memos = load_memos(JSON_FILE)
-  patched_memos = patch_memos(memos, params)
-  save_memos(JSON_FILE, memos)
+  patched_memos = patch_memos(@memos, params)
+  save_memos(JSON_FILE, patched_memos)
 
   redirect "/memos/#{params[:id]}"
 end
 
 delete '/memos/:id' do
-  memos = load_memos(JSON_FILE)
-  deleted_memos = delete_memos(memos, params)
+  deleted_memos = delete_memos(@memos, params)
   save_memos(JSON_FILE, deleted_memos)
 
   redirect '/memos'
