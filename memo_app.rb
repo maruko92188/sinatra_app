@@ -50,9 +50,9 @@ end
 
 delete '/memos/:id' do
   memos = load_memos(JSON_FILE)
-  id = params[:id]
-  memos.delete(id)
-  save_memos(JSON_FILE, memos)
+  deleted_memos = delete_memos(memos, params)
+  save_memos(JSON_FILE, deleted_memos)
+
   redirect '/memos'
 end
 
@@ -86,5 +86,11 @@ def patch_memos(memos, params)
   title = params[:title]
   content = params[:content]
   memos[id] = { title:, content: }
+  memos
+end
+
+def delete_memos(memos, params)
+  id = params[:id]
+  memos.delete(id)
   memos
 end
