@@ -53,7 +53,7 @@ patch '/memos/:id' do
   title = params[:title]
   content = params[:content]
   memos[id] = { title:, content: }
-  File.open(JSON_FILE, 'w') { |file| JSON.dump(memos, file) }
+  save_memos(JSON_FILE, memos)
 
   redirect "/memos/#{id}"
 end
@@ -62,8 +62,7 @@ delete '/memos/:id' do
   memos = load_memos(JSON_FILE)
   id = params[:id]
   memos.delete(id)
-  File.open(JSON_FILE, 'w') { |file| JSON.dump(memos, file) }
-
+  save_memos(JSON_FILE, memos)
   redirect '/memos'
 end
 
@@ -73,4 +72,8 @@ def load_memos(path)
   else
     {}
   end
+end
+
+def save_memos(path, memos)
+  File.open(path, 'w') { |file| JSON.dump(memos, file) }
 end
