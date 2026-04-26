@@ -42,13 +42,10 @@ end
 
 patch '/memos/:id' do
   memos = load_memos(JSON_FILE)
-  id = params[:id]
-  title = params[:title]
-  content = params[:content]
-  memos[id] = { title:, content: }
+  patched_memos = patch_memos(memos, params)
   save_memos(JSON_FILE, memos)
 
-  redirect "/memos/#{id}"
+  redirect "/memos/#{params[:id]}"
 end
 
 delete '/memos/:id' do
@@ -81,5 +78,13 @@ def post_memos(memos, params)
   title = params[:title]
   content = params[:content]
   memos[id] = { title:, content:, }
+  memos
+end
+
+def patch_memos(memos, params)
+  id = params[:id]
+  title = params[:title]
+  content = params[:content]
+  memos[id] = { title:, content: }
   memos
 end
