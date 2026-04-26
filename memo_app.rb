@@ -7,6 +7,8 @@ require 'json'
 JSON_FILE = './memo.json'
 FIRST_ID = 1
 
+set :show_exceptions, false
+
 helpers do
   def h(text)
     Rack::Utils.escape_html(text)
@@ -24,7 +26,6 @@ end
 get '/memos' do
   erb :index
 end
-
 
 get '/memos/new' do
   erb :new
@@ -61,6 +62,10 @@ delete '/memos/:id' do
   redirect '/memos'
 end
 
+not_found do
+  erb :not_found, layout: false
+end
+
 def load_memos(path)
   if File.exist?(path)
     JSON.parse(File.read(path))
@@ -75,7 +80,9 @@ end
 
 def find_memo(memos, params)
   id = params[:id]
-  memos.fetch(id)
+  memos.fetch(id) do
+    halt 404
+  end
 end
 
 def post_memos(memos, params)
