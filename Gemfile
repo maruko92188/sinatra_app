@@ -13,3 +13,4 @@ gem 'rubocop', require: false
 group :development do
   gem 'rubocop-fjord', require: false
 end
+gem 'erb_lint', require: false
