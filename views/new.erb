@@ -2,12 +2,12 @@
 <div>
   <form action="/memos" method="post">
     <div>
-      <label for="title">タイトル</label>
-      <input type="text" name="title" id="title">
+      <label for="title">タイトル<span style="color: red;">*</span></label>
+      <input type="text" name="title" id="title" required>
     </div>
     <div>
-      <label for="content">内容</label>
-      <textarea name="content" id="content"></textarea>
+      <label for="content">内容<span style="color: red;">*</span></label>
+      <textarea name="content" id="content" required></textarea>
     </div>
     <div>
       <input type="submit" value="作成">
