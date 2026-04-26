@@ -7,6 +7,12 @@ require 'json'
 JSON_FILE = './memo.json'
 FIRST_ID = 1
 
+helpers do
+  def h(text)
+    Rack::Utils.escape_html(text)
+  end
+end
+
 before '/memos/?*' do
   @memos = load_memos(JSON_FILE)
 end
