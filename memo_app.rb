@@ -33,18 +33,20 @@ end
 
 get '/memos/:id' do
   memos = load_memos(JSON_FILE)
-  id = params[:id]
-  title = memos[id]['title']
-  content = memos[id]['content']
-  erb :detail, locals: {id:, title:, content: }
+  # id = params[:id]
+  # title = memos[id]['title']
+  # content = memos[id]['content']
+  memo = find_memo(memos, params)
+  erb :detail, locals: {id: params[:id], memo: }
 end
 
 get '/memos/:id/edit' do
   memos = load_memos(JSON_FILE)
-  id = params[:id]
-  title = memos[id]['title']
-  content = memos[id]['content']
-  erb :edit, locals: {id:, title:, content: }
+  # id = params[:id]
+  # title = memos[id]['title']
+  # content = memos[id]['content']
+  memo = find_memo(memos, params)
+  erb :edit, locals: {id: params[:id], memo: }
 end
 
 patch '/memos/:id' do
@@ -76,4 +78,9 @@ end
 
 def save_memos(path, memos)
   File.open(path, 'w') { |file| JSON.dump(memos, file) }
+end
+
+def find_memo(memos, params)
+  id = params[:id]
+  memos.fetch(id)
 end
