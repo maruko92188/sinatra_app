@@ -26,7 +26,7 @@ post '/memos' do
   content = params[:content]
   id = memos.keys.map(&:to_i).max&.next || FIRST_ID
   memos[id] = { title:, content:, }
-  File.open(JSON_FILE, 'w') { |file| JSON.dump(memos, file) }
+  save_memos(JSON_FILE, memos)
 
   redirect '/memos'
 end
