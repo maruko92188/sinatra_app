@@ -19,7 +19,7 @@ before '/memos/?*' do
   @memos = load_memos(JSON_FILE)
 end
 
-get '/' do 
+get '/' do
   redirect '/memos'
 end
 
@@ -89,7 +89,7 @@ def post_memos(memos, params)
   id = memos.keys.map(&:to_i).max&.next || FIRST_ID
   title = params[:title]
   content = params[:content]
-  memos[id] = { title:, content:, }
+  memos[id] = { title:, content: }
   memos
 end
 
