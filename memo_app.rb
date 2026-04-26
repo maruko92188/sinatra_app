@@ -4,8 +4,6 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
 
-# メモアプリ本体
-
 JSON_FILE = './memo.json'
 FIRST_ID = 1
 
@@ -14,12 +12,7 @@ get '/' do
 end
 
 get '/memos' do
-  memos =
-  if File.exist?(JSON_FILE)
-    JSON.parse(File.read(JSON_FILE))
-  else
-    {}
-  end
+  memos = load_memos(JSON_FILE)
   erb :index, locals: { memos: }
 end
 
@@ -28,12 +21,7 @@ get '/memos/new' do
 end
 
 post '/memos' do
-  memos = 
-  if File.exist?(JSON_FILE)
-    JSON.parse(File.read(JSON_FILE))
-  else
-    {}
-  end
+  memos = load_memos(JSON_FILE)
   title = params[:title]
   content = params[:content]
   id = memos.keys.map(&:to_i).max&.next || FIRST_ID
@@ -44,12 +32,7 @@ post '/memos' do
 end
 
 get '/memos/:id' do
-  memos =
-  if File.exist?(JSON_FILE)
-    JSON.parse(File.read(JSON_FILE))
-  else
-    {}
-  end
+  memos = load_memos(JSON_FILE)
   id = params[:id]
   title = memos[id]['title']
   content = memos[id]['content']
@@ -57,12 +40,7 @@ get '/memos/:id' do
 end
 
 get '/memos/:id/edit' do
-  memos =
-  if File.exist?(JSON_FILE)
-    JSON.parse(File.read(JSON_FILE))
-  else
-    {}
-  end
+  memos = load_memos(JSON_FILE)
   id = params[:id]
   title = memos[id]['title']
   content = memos[id]['content']
@@ -70,12 +48,7 @@ get '/memos/:id/edit' do
 end
 
 patch '/memos/:id' do
-  memos =
-  if File.exist?(JSON_FILE)
-    JSON.parse(File.read(JSON_FILE))
-  else
-    {}
-  end
+  memos = load_memos(JSON_FILE)
   id = params[:id]
   title = params[:title]
   content = params[:content]
@@ -86,15 +59,18 @@ patch '/memos/:id' do
 end
 
 delete '/memos/:id' do
-  memos =
-  if File.exist?(JSON_FILE)
-    JSON.parse(File.read(JSON_FILE))
-  else
-    {}
-  end
+  memos = load_memos(JSON_FILE)
   id = params[:id]
   memos.delete(id)
   File.open(JSON_FILE, 'w') { |file| JSON.dump(memos, file) }
 
   redirect '/memos'
+end
+
+def load_memos(path)
+  if File.exist?(path)
+    JSON.parse(File.read(path))
+  else
+    {}
+  end
 end
