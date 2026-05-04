@@ -32,8 +32,7 @@ get '/memos/new' do
 end
 
 post '/memos' do
-  posted_memos = post_memos(@memos, params)
-  save_memos(posted_memos)
+  post_memos(@memos, params)
 
   redirect '/memos'
 end
@@ -49,15 +48,13 @@ get '/memos/:id/edit' do
 end
 
 patch '/memos/:id' do
-  patched_memos = patch_memos(@memos, params)
-  save_memos(patched_memos)
+  patch_memos(@memos, params)
 
   redirect "/memos/#{params[:id]}"
 end
 
 delete '/memos/:id' do
-  deleted_memos = delete_memos(@memos, params)
-  save_memos(deleted_memos)
+  delete_memos(@memos, params)
 
   redirect '/memos'
 end
@@ -74,10 +71,6 @@ def load_memos
   end
 end
 
-def save_memos(memos)
-  File.open(JSON_FILE, 'w') { |file| JSON.dump(memos, file) }
-end
-
 def find_memo(memos, params)
   id = params[:id]
   memos.fetch(id) do
@@ -90,7 +83,7 @@ def post_memos(memos, params)
   title = params[:title]
   content = params[:content]
   memos[id] = { title:, content: }
-  memos
+  save_memos(memos)
 end
 
 def patch_memos(memos, params)
@@ -98,11 +91,15 @@ def patch_memos(memos, params)
   title = params[:title]
   content = params[:content]
   memos[id] = { title:, content: }
-  memos
+  save_memos(memos)
 end
 
 def delete_memos(memos, params)
   id = params[:id]
   memos.delete(id)
-  memos
+  save_memos(memos)
+end
+
+def save_memos(memos)
+  File.open(JSON_FILE, 'w') { |file| JSON.dump(memos, file) }
 end
