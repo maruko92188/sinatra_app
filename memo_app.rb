@@ -16,7 +16,7 @@ helpers do
 end
 
 before '/memos/?*' do
-  @memos = load_memos(JSON_FILE)
+  @memos = load_memos
 end
 
 get '/' do
@@ -33,7 +33,7 @@ end
 
 post '/memos' do
   posted_memos = post_memos(@memos, params)
-  save_memos(JSON_FILE, posted_memos)
+  save_memos(posted_memos)
 
   redirect '/memos'
 end
@@ -50,14 +50,14 @@ end
 
 patch '/memos/:id' do
   patched_memos = patch_memos(@memos, params)
-  save_memos(JSON_FILE, patched_memos)
+  save_memos(patched_memos)
 
   redirect "/memos/#{params[:id]}"
 end
 
 delete '/memos/:id' do
   deleted_memos = delete_memos(@memos, params)
-  save_memos(JSON_FILE, deleted_memos)
+  save_memos(deleted_memos)
 
   redirect '/memos'
 end
@@ -66,16 +66,16 @@ not_found do
   erb :not_found, layout: false
 end
 
-def load_memos(path)
-  if File.exist?(path)
-    JSON.parse(File.read(path))
+def load_memos
+  if File.exist?(JSON_FILE)
+    JSON.parse(File.read(JSON_FILE))
   else
     {}
   end
 end
 
-def save_memos(path, memos)
-  File.open(path, 'w') { |file| JSON.dump(memos, file) }
+def save_memos(memos)
+  File.open(JSON_FILE, 'w') { |file| JSON.dump(memos, file) }
 end
 
 def find_memo(memos, params)
