@@ -39,12 +39,12 @@ post '/memos' do
 end
 
 get '/memos/:id' do
-  memo = find_memo(params)
+  memo = find_memo(params[:id])
   erb :detail, locals: { id: params[:id], memo: }
 end
 
 get '/memos/:id/edit' do
-  memo = find_memo(params)
+  memo = find_memo(params[:id])
   erb :edit, locals: { id: params[:id], memo: }
 end
 
@@ -72,8 +72,7 @@ def load_memos
   end
 end
 
-def find_memo(params)
-  id = params[:id]
+def find_memo(id)
   @memos.fetch(id) do
     halt 404
   end
