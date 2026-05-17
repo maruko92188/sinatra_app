@@ -33,29 +33,29 @@ get '/memos/new' do
 end
 
 post '/memos' do
-  post_memos(@memos, params)
+  post_memos(params)
 
   redirect '/memos'
 end
 
 get '/memos/:id' do
-  memo = find_memo(@memos, params)
+  memo = find_memo(params)
   erb :detail, locals: { id: params[:id], memo: }
 end
 
 get '/memos/:id/edit' do
-  memo = find_memo(@memos, params)
+  memo = find_memo(params)
   erb :edit, locals: { id: params[:id], memo: }
 end
 
 patch '/memos/:id' do
-  patch_memos(@memos, params)
+  patch_memos(params)
 
   redirect "/memos/#{params[:id]}"
 end
 
 delete '/memos/:id' do
-  delete_memos(@memos, params)
+  delete_memos(params)
 
   redirect '/memos'
 end
@@ -72,35 +72,35 @@ def load_memos
   end
 end
 
-def find_memo(memos, params)
+def find_memo(params)
   id = params[:id]
-  memos.fetch(id) do
+  @memos.fetch(id) do
     halt 404
   end
 end
 
-def post_memos(memos, params)
-  id = memos.keys.map(&:to_i).max&.next || FIRST_ID
+def post_memos(params)
+  id = @memos.keys.map(&:to_i).max&.next || FIRST_ID
   title = params[:title]
   content = params[:content]
-  memos[id] = { title:, content: }
-  save_memos(memos)
+  @memos[id] = { title:, content: }
+  save_memos
 end
 
-def patch_memos(memos, params)
+def patch_memos(params)
   id = params[:id]
   title = params[:title]
   content = params[:content]
-  memos[id] = { title:, content: }
-  save_memos(memos)
+  @memos[id] = { title:, content: }
+  save_memos
 end
 
-def delete_memos(memos, params)
+def delete_memos(params)
   id = params[:id]
-  memos.delete(id)
-  save_memos(memos)
+  @memos.delete(id)
+  save_memos
 end
 
-def save_memos(memos)
-  File.open(JSON_FILE, 'w') { |file| JSON.dump(memos, file) }
+def save_memos
+  File.open(JSON_FILE, 'w') { |file| JSON.dump(@memos, file) }
 end
