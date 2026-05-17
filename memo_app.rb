@@ -15,7 +15,8 @@ helpers do
   end
 end
 
-before '/memos/?*' do
+before do
+  next if request.path_info == '/memos/new'
   @memos = load_memos
 end
 
