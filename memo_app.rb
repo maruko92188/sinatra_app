@@ -3,9 +3,10 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
+require 'securerandom'
+
 
 JSON_FILE = './memo.json'
-FIRST_ID = 1
 
 set :show_exceptions, false
 
@@ -79,7 +80,7 @@ def find_memo(id)
 end
 
 def post_memos(params)
-  id = @memos.keys.map(&:to_i).max&.next || FIRST_ID
+  id = SecureRandom.uuid
   title = params[:title]
   content = params[:content]
   @memos[id] = { title:, content: }
