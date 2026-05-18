@@ -67,31 +67,31 @@ end
 
 def load_memos
   if File.exist?(JSON_FILE)
-    JSON.parse(File.read(JSON_FILE))
+    JSON.parse(File.read(JSON_FILE), symbolize_names: true)
   else
     {}
   end
 end
 
 def find_memo(id)
-  @memos.fetch(id) do
+  @memos.fetch(:id) do
     halt 404
   end
 end
 
 def post_memos(title, content)
   id = SecureRandom.uuid
-  @memos[id] = { title:, content: }
+  @memos[:id] = { title:, content: }
   save_memos
 end
 
 def patch_memos(id, title, content)
-  @memos[id] = { title:, content: }
+  @memos[:id] = { title:, content: }
   save_memos
 end
 
 def delete_memos(id)
-  @memos.delete(id)
+  @memos.delete(:id)
   save_memos
 end
 
