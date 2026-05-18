@@ -5,7 +5,6 @@ require 'sinatra/reloader'
 require 'json'
 require 'securerandom'
 
-
 JSON_FILE = './memo.json'
 
 set :show_exceptions, false
@@ -18,6 +17,7 @@ end
 
 before do
   next if request.path_info == '/memos/new'
+
   @memos = load_memos
 end
 
@@ -40,23 +40,23 @@ post '/memos' do
 end
 
 get '/memos/:id' do
-  memo = find_memo(params[:id])
+  memo = find_memo(params[:id].to_sym)
   erb :detail, locals: { id: params[:id], memo: }
 end
 
 get '/memos/:id/edit' do
-  memo = find_memo(params[:id])
+  memo = find_memo(params[:id].to_sym)
   erb :edit, locals: { id: params[:id], memo: }
 end
 
 patch '/memos/:id' do
-  patch_memos(params[:id], params[:title], params[:content])
+  patch_memos(params[:id].to_sym, params[:title], params[:content])
 
   redirect "/memos/#{params[:id]}"
 end
 
 delete '/memos/:id' do
-  delete_memos(params[:id])
+  delete_memos(params[:id].to_sym)
 
   redirect '/memos'
 end
@@ -74,24 +74,24 @@ def load_memos
 end
 
 def find_memo(id)
-  @memos.fetch(:id) do
+  @memos.fetch(id) do
     halt 404
   end
 end
 
 def post_memos(title, content)
-  id = SecureRandom.uuid
-  @memos[:id] = { title:, content: }
+  id = SecureRandom.uuid.to_sym
+  @memos[id] = { title:, content: }
   save_memos
 end
 
 def patch_memos(id, title, content)
-  @memos[:id] = { title:, content: }
+  @memos[id] = { title:, content: }
   save_memos
 end
 
 def delete_memos(id)
-  @memos.delete(:id)
+  @memos.delete(id)
   save_memos
 end
 
