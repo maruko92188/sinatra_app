@@ -41,12 +41,12 @@ end
 
 get '/memos/:id' do
   memo = find_memo(params[:id])
-  erb :detail, locals: { id: params[:id], memo: }
+  erb :detail, locals: { memo: }
 end
 
 get '/memos/:id/edit' do
   memo = find_memo(params[:id])
-  erb :edit, locals: { id: params[:id], memo: }
+  erb :edit, locals: { memo: }
 end
 
 patch '/memos/:id' do
@@ -81,12 +81,12 @@ end
 
 def post_memos(title, content)
   id = SecureRandom.uuid
-  @memos[id] = { title:, content: }
+  @memos[id] = { id:, title:, content: }
   save_memos
 end
 
 def patch_memos(id, title, content)
-  @memos[id] = { title:, content: }
+  @memos[id] = { id:, title:, content: }
   save_memos
 end
 
