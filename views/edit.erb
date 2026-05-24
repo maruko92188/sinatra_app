@@ -3,11 +3,11 @@
   <form action="/memos/<%= id %>" method="post">
     <div>
       <label for="title">タイトル<span style="color: red;">*</span></label>
-      <input type="text" name="title" id="title" value="<%= memo[:title] %>" required>
+      <input type="text" name="title" id="title" value="<%= memo['title'] %>" required>
     </div>
     <div>
       <label for="content">内容<span style="color: red;">*</span></label>
-      <textarea name="content" id="content" required><%= memo[:content] %></textarea>
+      <textarea name="content" id="content" required><%= memo['content'] %></textarea>
     </div>
     <div>
       <input type="hidden" name="_method" value="patch">

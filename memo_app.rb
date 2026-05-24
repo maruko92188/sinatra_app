@@ -40,23 +40,23 @@ post '/memos' do
 end
 
 get '/memos/:id' do
-  memo = find_memo(params[:id].to_sym)
+  memo = find_memo(params[:id])
   erb :detail, locals: { id: params[:id], memo: }
 end
 
 get '/memos/:id/edit' do
-  memo = find_memo(params[:id].to_sym)
+  memo = find_memo(params[:id])
   erb :edit, locals: { id: params[:id], memo: }
 end
 
 patch '/memos/:id' do
-  patch_memos(params[:id].to_sym, params[:title], params[:content])
+  patch_memos(params[:id], params[:title], params[:content])
 
   redirect "/memos/#{params[:id]}"
 end
 
 delete '/memos/:id' do
-  delete_memos(params[:id].to_sym)
+  delete_memos(params[:id])
 
   redirect '/memos'
 end
@@ -67,7 +67,7 @@ end
 
 def load_memos
   if File.exist?(JSON_FILE)
-    JSON.parse(File.read(JSON_FILE), symbolize_names: true)
+    JSON.parse(File.read(JSON_FILE))
   else
     {}
   end
@@ -80,7 +80,7 @@ def find_memo(id)
 end
 
 def post_memos(title, content)
-  id = SecureRandom.uuid.to_sym
+  id = SecureRandom.uuid
   @memos[id] = { title:, content: }
   save_memos
 end
