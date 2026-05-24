@@ -9,6 +9,4 @@ gem "sinatra-contrib"
 gem "webrick"
 gem 'rubocop', require: false
 gem 'erb_lint', require: false
-group :development do
-  gem 'rubocop-fjord', require: false
-end
+gem 'rubocop-fjord', require: false
