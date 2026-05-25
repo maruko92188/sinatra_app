@@ -1,0 +1,11 @@
+<p>メモの一覧</p>
+<% if @memos.empty? %>
+  <p>メモはありません</p>
+<% else %>
+  <ul>
+    <% @memos.each do |id, memo| %>
+      <li><a href="memos/<%= id %>"><%= h(memo['title']) %></a></li>
+    <% end %>
+  </ul>
+<% end %>
+<a href="/memos/new">新規メモ作成</a>

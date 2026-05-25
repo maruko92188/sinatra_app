@@ -1,0 +1,17 @@
+<h2>内容変更</h2>
+<div>
+  <form action="/memos/<%= memo['id'] %>" method="post">
+    <div>
+      <label for="title">タイトル<span style="color: red;">*</span></label>
+      <input type="text" name="title" id="title" value="<%= memo['title'] %>" required>
+    </div>
+    <div>
+      <label for="content">内容<span style="color: red;">*</span></label>
+      <textarea name="content" id="content" required><%= memo['content'] %></textarea>
+    </div>
+    <div>
+      <input type="hidden" name="_method" value="patch">
+      <input type="submit" value="内容を変更する">
+    </div>
+  </form>
+</div>
