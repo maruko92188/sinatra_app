@@ -1,10 +1,10 @@
 <p>メモの一覧</p>
-<% if @memos.empty? %>
+<% if memos.empty? %>
   <p>メモはありません</p>
 <% else %>
   <ul>
-    <% @memos.each do |id, memo| %>
-      <li><a href="memos/<%= id %>"><%= h(memo['title']) %></a></li>
+    <% memos.each do |memo| %>
+      <li><a href="memos/<%= memo['id'] %>"><%= h(memo['title']) %></a></li>
     <% end %>
   </ul>
 <% end %>
