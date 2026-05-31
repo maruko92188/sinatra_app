@@ -22,7 +22,7 @@ get '/' do
 end
 
 get '/memos' do
-  memos = settings.conn.exec("SELECT id, title FROM #{TABLE_NAME} ORDER BY id DESC;").to_a
+  memos = load_memos
   erb :index, locals: { memos: }
 end
 
@@ -60,6 +60,10 @@ end
 
 not_found do
   erb :not_found, layout: false
+end
+
+def load_memos
+  settings.conn.exec("SELECT id, title FROM #{TABLE_NAME} ORDER BY id DESC;").to_a
 end
 
 def find_memo(id)
