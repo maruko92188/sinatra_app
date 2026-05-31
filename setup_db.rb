@@ -6,6 +6,7 @@ require_relative 'config/db_config'
 def setup_database
   create_database
   create_table
+  puts 'データベースの設定が成功しました'
 end
 
 def create_database
