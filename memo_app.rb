@@ -8,7 +8,7 @@ require_relative 'config/db_config'
 set :show_exceptions, false
 
 configure do
-  set :conn, PG.connect( dbname: DATABASE_NAME)
+  set :conn, PG.connect(dbname: DATABASE_NAME)
 end
 
 helpers do
@@ -23,7 +23,7 @@ end
 
 get '/memos' do
   memos = settings.conn.exec("SELECT id, title FROM #{TABLE_NAME} ORDER BY id DESC;").to_a
-  erb :index, locals: { memos:}
+  erb :index, locals: { memos: }
 end
 
 get '/memos/new' do
