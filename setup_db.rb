@@ -27,7 +27,7 @@ def create_table
 end
 
 def connect_db(dbname)
-  PG.connect(dbname: )
+  PG.connect(dbname:)
 end
 
 setup_database
