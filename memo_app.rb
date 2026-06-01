@@ -3,12 +3,11 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'pg'
-require_relative 'config/db_config'
 
 set :show_exceptions, false
 
 configure do
-  set :conn, PG.connect(dbname: DATABASE_NAME)
+  set :conn, PG.connect(dbname: 'memo')
 end
 
 helpers do
@@ -63,22 +62,22 @@ not_found do
 end
 
 def load_memos
-  settings.conn.exec("SELECT id, title FROM #{TABLE_NAME} ORDER BY id DESC;").to_a
+  settings.conn.exec('SELECT id, title FROM memos ORDER BY id DESC;').to_a
 end
 
 def find_memo(id)
-  halt 404 unless id =~ /\A\d+\z/
-  settings.conn.exec_params("SELECT * FROM #{TABLE_NAME} WHERE id = $1 LIMIT 1;", [id]).first || halt(404)
+  # halt 404 unless id =~ /\A\d+\z/
+  settings.conn.exec_params('SELECT * FROM memos WHERE id = $1 LIMIT 1;', [id]).first || halt(404)
 end
 
 def post_memos(title, content)
-  settings.conn.exec_params("INSERT INTO #{TABLE_NAME} (title, content) VALUES ($1, $2);", [title, content])
+  settings.conn.exec_params('INSERT INTO memos (title, content) VALUES ($1, $2);', [title, content])
 end
 
 def patch_memos(id, title, content)
-  settings.conn.exec_params("UPDATE #{TABLE_NAME} SET title = $1, content = $2 WHERE id = $3;", [title, content, id])
+  settings.conn.exec_params('UPDATE memos SET title = $1, content = $2 WHERE id = $3;', [title, content, id])
 end
 
 def delete_memos(id)
-  settings.conn.exec_params("DELETE FROM #{TABLE_NAME} WHERE id = $1;", [id])
+  settings.conn.exec_params('DELETE FROM memos WHERE id = $1;', [id])
 end
