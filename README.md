@@ -10,35 +10,35 @@
 ## 環境構築
 ### 開発マシンの任意のディレクトリで`git clone`を行う。
 ```
-$ git clone -b develop-db https://github.com/maruko92188/sinatra_app.git
+git clone -b develop-db https://github.com/maruko92188/sinatra_app.git
 ```
 ### `sinatra_app`ディレクトリへ移動する。
 ```
-$ cd sinatra_app
+cd sinatra_app
 ```
 ### `gem`をインストールする。
 ```
-$ bundle install
+bundle install
 ```
 ### データベースを準備する
 #### `PostgreSQL`のインストール
 ```
-$ brew install postgresql
+brew install postgresql
 ```
 #### データベースの起動
 ```
-$ brew services start postgresql@~
+brew services start postgresql@~
 ```
 ※ @~はインストールされているバージョンを指定する。バージョンの確認は、
 ```
-$ psql --version
+psql --version
 ```
 #### データベースの初期設定
 ```
-$ bundle exec ruby setup_db.rb
+bundle exec ruby setup_db.rb
 ```
 ### サーバーを起動させる
 ```
-$ bundle exec ruby memo_app.rb
+bundle exec ruby memo_app.rb
 ```
 ### `http://localhost:4567`にアクセスする。
