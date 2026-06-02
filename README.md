@@ -33,10 +33,6 @@ brew services start postgresql@~
 ```
 psql --version
 ```
-#### データベースの初期設定
-```
-bundle exec ruby setup_db.rb
-```
 ### サーバーを起動させる
 ```
 bundle exec ruby memo_app.rb
