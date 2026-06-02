@@ -74,7 +74,6 @@ def load_memos
 end
 
 def find_memo(id)
-  halt 404 unless id =~ /\A\d+\z/
   settings.conn.exec_params('SELECT * FROM memos WHERE id = $1 LIMIT 1;', [id]).first || halt(404)
 end
 
