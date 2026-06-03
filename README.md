@@ -8,20 +8,33 @@
 |  Sinatra |    4.2.1   |
 
 ## 環境構築
-1. 開発マシンの任意のディレクトリで`git clone`を行う。
+### 開発マシンの任意のディレクトリで`git clone`を行う。
 ```
-$ git clone -b develop https://github.com/maruko92188/sinatra_app_JSON.git
+git clone -b develop-db https://github.com/maruko92188/sinatra_app.git
 ```
-2. `sinatra_app_JSON`ディレクトリへ移動する。
+### `sinatra_app`ディレクトリへ移動する。
 ```
-$ cd sinatra_app_JSON
+cd sinatra_app
 ```
-3. `gem`をインストールする。
+### `gem`をインストールする。
 ```
-$ bundle install
+bundle install
 ```
-4. サーバーを起動させる。
+### データベースを準備する
+#### `PostgreSQL`のインストール
 ```
-$ bundle exec ruby memo_app.rb
+brew install postgresql
 ```
-5. `http://localhost:4567`にアクセスする。
+#### データベースの起動
+```
+brew services start postgresql@~
+```
+※ @~はインストールされているバージョンを指定する。バージョンの確認は、
+```
+psql --version
+```
+### サーバーを起動させる
+```
+bundle exec ruby memo_app.rb
+```
+### `http://localhost:4567`にアクセスする。

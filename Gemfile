@@ -7,6 +7,7 @@ gem "rackup"
 gem "puma"
 gem "sinatra-contrib"
 gem "webrick"
-gem 'rubocop', require: false
-gem 'erb_lint', require: false
-gem 'rubocop-fjord', require: false
+gem "pg"
+gem "rubocop", require: false
+gem "erb_lint", require: false
+gem "rubocop-fjord", require: false
